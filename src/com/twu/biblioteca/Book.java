@@ -14,8 +14,6 @@ public class Book
         this.authorOfTheBook = authorOfTheBook;
         this.nameOfTheBook = nameOfTheBook;
         this.yearOfPublishing = yearOfPublishing;
-
-
     }
 
 
