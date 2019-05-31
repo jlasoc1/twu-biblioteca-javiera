@@ -7,38 +7,34 @@ import java.util.Scanner;
 public class BibliotecaApp
 {
     public static final String WELCOME = "Welcome to Biblioteca. Your one-stop-shop for great book titles in Bangalore\n";
-    public static final String LIST_OF_BOOKS = "This is the menu, you can select: \n '1. List of Books'";
+    public static final String MENU_OPTIONS = "This is the menu, you can select: \n '1. List of Books' \n '2. Checkout a Book' \n '0. Quit'";
     private List<Book> bookList;
 
     public static void main(String[] args)
     {
-        Scanner myObj = new Scanner(System.in);
-        boolean running = true;
-        String userInput = "";
+        Scanner inputOption = new Scanner(System.in);
         BibliotecaApp biblioteca = new BibliotecaApp();
+
+        System.out.println("" + biblioteca.getGreeting() + biblioteca.getMenu());
+        boolean running = true;
         List bookList = new ArrayList();
-        bookList.add(new Book("Aldous Huxley", "A brave new world", 1932 ));
-        bookList.add(new Book("J. R. R. Tolkien", "The Lord of the Rings", 1954 ));
+        bookList.add(new Book("Aldous Huxley", "A brave new world", 1932));
+        bookList.add(new Book("J. R. R. Tolkien", "The Lord of the Rings", 1954));
         biblioteca.setBooks(bookList);
+        String userInput;
 
         while (running)
         {
+            userInput = inputOption.nextLine();
             String bibliotecaAnswer = biblioteca.getAnswer(userInput);
             biblioteca.printMessage(bibliotecaAnswer);
-            if (bibliotecaAnswer.toLowerCase().contains("option!"))
+            if (userInput.toLowerCase().contains("0"))
             {
                 running = false;
-            }
-            else {
-                userInput = myObj.nextLine();
             }
         }
     }
 
-    public String printMessage(String message) {
-        System.out.println(message);
-        return message;
-    }
 
     public String getAnswer(String _sUserInput)
     {
@@ -50,17 +46,18 @@ public class BibliotecaApp
         {
             return getBookList();
         }
-        else if (_sUserInput.equals(2))
+        else if (_sUserInput.equals("2"))
         {
-            return "Please select a valid option!\n" + getMenu();
+            return "Please write the name of the Book that you want to Check-Out";
         }
+
         else if (_sUserInput.equals("0"))
         {
             return "Thanks for using Biblioteca!";
         }
         else
         {
-            return ("");
+            return "Please select a valid option!\n" + getMenu();
         }
     }
 
@@ -78,7 +75,7 @@ public class BibliotecaApp
 
     private String getMenu()
     {
-        return LIST_OF_BOOKS;
+        return MENU_OPTIONS;
     }
 
 
@@ -90,10 +87,13 @@ public class BibliotecaApp
             resultList = resultList + b.getAuthorOfTheBook() + " : " + b.getNameOfTheBook() + " : "
                     + b.getYearOfPublishing() + " " + "\n" ;
         }
-        resultList = resultList;
-
         return resultList;
     }
 
+
+    public String printMessage(String message) {
+        System.out.println(message);
+        return message;
+    }
 
 }
