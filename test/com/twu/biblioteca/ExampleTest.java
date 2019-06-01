@@ -1,12 +1,10 @@
 package com.twu.biblioteca;
 
 import org.junit.Test;
-
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
-
 import static org.junit.Assert.assertEquals;
 
 public class ExampleTest
@@ -51,7 +49,7 @@ public class ExampleTest
         assertEquals(2, sParts.length);
     }
 
-    // Test 1.3
+    //Test 1.3
     @Test
     public void testViewAListOfBooksWhenSelectOne()
     {
@@ -66,7 +64,7 @@ public class ExampleTest
         assertEquals(sExpectedOutput, sActualOutput);
     }
 
-    // Test 1.6
+    //Test 1.6
     @Test
     public void testInputZeroFromUser()
     {
@@ -86,10 +84,9 @@ public class ExampleTest
         assertEquals(sExpectedOutput, sActualOutput);
     }
 
-    //Test 1.7 (Checkout Menu - Enter a name)
-    // Check out an available book and change the state to not available
+    //Test 1.8
     @Test
-    public void testGetAvailabilityOfABook()
+    public void testGetABookCorrectly()
     {
         BibliotecaApp biblioteca = new BibliotecaApp();
         List bookList = new ArrayList();
@@ -101,24 +98,124 @@ public class ExampleTest
         String sActualOutput = biblioteca.getAnswer("The Lord of the Rings");
         String sExpectedOutput = "Enjoy the book!" ;
         assertEquals(sExpectedOutput, sActualOutput);
-        //Back to the menu
+    }
+
+    //Test 1.9
+    @Test
+    public void testGetABookWithWrongName() {
+        BibliotecaApp biblioteca = new BibliotecaApp();
+        List bookList = new ArrayList();
+        bookList.add(new Book("Aldous Huxley", "A brave new world", 1932, true));
+        bookList.add(new Book("J. R. R. Tolkien", "The Lord of the Rings", 1954, true));
+        biblioteca.setBooks(bookList);
+        biblioteca.getAnswer("");
         biblioteca.getAnswer("2");
-        String sActualOutput2 = biblioteca.getAnswer("The Lord of the Rin");
+        String sActualOutput = biblioteca.getAnswer("The Lord");
+        String sExpectedOutput = "Sorry that book is not available";
+        assertEquals(sExpectedOutput, sActualOutput);
+    }
+
+    //Test 1.9.2
+    @Test
+    public void testGetABookCorrectlyAndTriedToTakeItAgainFailing() {
+        BibliotecaApp biblioteca = new BibliotecaApp();
+        List bookList = new ArrayList();
+        bookList.add(new Book("Aldous Huxley", "A brave new world", 1932, true));
+        bookList.add(new Book("J. R. R. Tolkien", "The Lord of the Rings", 1954, true));
+        biblioteca.setBooks(bookList);
+        biblioteca.getAnswer("");
+        biblioteca.getAnswer("2");
+        String sActualOutput = biblioteca.getAnswer("The Lord of the Rings");
+        String sExpectedOutput = "Enjoy the book!";
+        assertEquals(sExpectedOutput, sActualOutput);
+        //Back to the menu & write the same book name
+        biblioteca.getAnswer("2");
+        String sActualOutput2 = biblioteca.getAnswer("The Lord of the Rings");
         String sExpectedOutput2 = "Sorry that book is not available";
+        assertEquals(sExpectedOutput2, sActualOutput2);
+    }
+
+    //Test 1.9.3
+    @Test
+    public void testViewTheListOfBooksWhenICheckOutABook() {
+        BibliotecaApp biblioteca = new BibliotecaApp();
+        List bookList = new ArrayList();
+        bookList.add(new Book("Aldous Huxley", "A brave new world", 1932, true));
+        bookList.add(new Book("J. R. R. Tolkien", "The Lord of the Rings", 1954, true));
+        biblioteca.setBooks(bookList);
+        biblioteca.getAnswer("");
+        biblioteca.getAnswer("2");
+        String sActualOutput = biblioteca.getAnswer("The Lord of the Rings");
+        String sExpectedOutput = "Enjoy the book!";
+        assertEquals(sExpectedOutput, sActualOutput);
+        //Back to the menu & Show the new list of books
+        biblioteca.getAnswer("1");
+        String sActualOutput2 = biblioteca.getAnswer("1");
+        String sExpectedOutput2 = "Aldous Huxley : A brave new world : 1932 \n";
+        assertEquals(sExpectedOutput2, sActualOutput2);
+    }
+
+    //Test 1.9.2
+    @Test
+    public void testInputThreeFromUser()
+    {
+        String sExpectedOutput = "Please write the name of the Book that you want to Return";
+        BibliotecaApp biblioteca = new BibliotecaApp();
+        String sActualOutput = biblioteca.getAnswer("3");
+        assertEquals(sExpectedOutput, sActualOutput);
+    }
+
+    //Test 1.9.3
+    @Test
+    public void testGetABookCorrectlyAnReturnIt() {
+        BibliotecaApp biblioteca = new BibliotecaApp();
+        List bookList = new ArrayList();
+        bookList.add(new Book("Aldous Huxley", "A brave new world", 1932, true));
+        bookList.add(new Book("J. R. R. Tolkien", "The Lord of the Rings", 1954, true));
+        biblioteca.setBooks(bookList);
+        biblioteca.getAnswer("");
+        biblioteca.getAnswer("2");
+        String sActualOutput = biblioteca.getAnswer("The Lord of the Rings");
+        String sExpectedOutput = "Enjoy the book!";
+        assertEquals(sExpectedOutput, sActualOutput);
+        //Back to the menu & return the book
+        biblioteca.getAnswer("3");
+        String sActualOutput2 = biblioteca.getAnswer("The Lord of the Rings");
+        String sExpectedOutput2 = "Thank you for returning the book";
+        assertEquals(sExpectedOutput2, sActualOutput2);
+    }
+
+    //Test 1.9.4
+    @Test
+    public void testGetABookCorrectlyAnReturnADifferentOne() {
+        BibliotecaApp biblioteca = new BibliotecaApp();
+        List bookList = new ArrayList();
+        bookList.add(new Book("Aldous Huxley", "A brave new world", 1932, true));
+        bookList.add(new Book("J. R. R. Tolkien", "The Lord of the Rings", 1954, true));
+        biblioteca.setBooks(bookList);
+        biblioteca.getAnswer("");
+        biblioteca.getAnswer("2");
+        String sActualOutput = biblioteca.getAnswer("The Lord of the Rings");
+        String sExpectedOutput = "Enjoy the book!";
+        assertEquals(sExpectedOutput, sActualOutput);
+        //Back to the menu & return the book
+        biblioteca.getAnswer("3");
+        String sActualOutput2 = biblioteca.getAnswer("The call of the Wild");
+        String sExpectedOutput2 = "Sorry that book does not belong to Biblioteca";
         assertEquals(sExpectedOutput2, sActualOutput2);
     }
 
 
 
 
-    // Test 1.5
+    //Test 1.5
     @Test
     public void testInputNoValidMenuOption()
     {
         String sExpectedOutput = "Please select a valid option!\n" + "This is the menu, you can select: \n " +
                 "'1. List of Books' \n '2. Checkout a Book' \n '0. Quit'";
         BibliotecaApp biblioteca = new BibliotecaApp();
-        String sActualOutput = biblioteca.getAnswer("3");
+        String sActualOutput = biblioteca.getAnswer("5");
         assertEquals(sExpectedOutput, sActualOutput);
     }
 

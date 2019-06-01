@@ -38,6 +38,14 @@ public class Book
     }
 
     public boolean getAvailabilityOfTheBook() {return availabilityOfTheBook;}
+
+
+    //setter
+
+    public void setAvailabilityOfTheBook(boolean availabilityOfTheBook)
+    {
+        this.availabilityOfTheBook = availabilityOfTheBook;
+    }
 }
 
 
