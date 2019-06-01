@@ -19,7 +19,6 @@ public class Book
     }
 
 
-
 // getters
 
     public String getAuthorOfTheBook()
