@@ -6,14 +6,16 @@ public class Book
     private String authorOfTheBook;
     private String nameOfTheBook;
     private int yearOfPublishing;
+    private boolean availabilityOfTheBook;
 
 
 
-    public Book(String authorOfTheBook, String nameOfTheBook, int yearOfPublishing)
+    public Book(String authorOfTheBook, String nameOfTheBook, int yearOfPublishing, boolean availabilityOfTheBook)
     {
         this.authorOfTheBook = authorOfTheBook;
         this.nameOfTheBook = nameOfTheBook;
         this.yearOfPublishing = yearOfPublishing;
+        this.availabilityOfTheBook = availabilityOfTheBook;
     }
 
 
@@ -34,6 +36,8 @@ public class Book
     {
         return yearOfPublishing;
     }
+
+    public boolean getAvailabilityOfTheBook() {return availabilityOfTheBook;}
 }
 
 

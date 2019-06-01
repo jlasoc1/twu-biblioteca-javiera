@@ -9,6 +9,7 @@ public class BibliotecaApp
     public static final String WELCOME = "Welcome to Biblioteca. Your one-stop-shop for great book titles in Bangalore\n";
     public static final String MENU_OPTIONS = "This is the menu, you can select: \n '1. List of Books' \n '2. Checkout a Book' \n '0. Quit'";
     private List<Book> bookList;
+    private String bibliotecaState = "IDLE";
 
     public static void main(String[] args)
     {
@@ -18,8 +19,8 @@ public class BibliotecaApp
         System.out.println("" + biblioteca.getGreeting() + biblioteca.getMenu());
         boolean running = true;
         List bookList = new ArrayList();
-        bookList.add(new Book("Aldous Huxley", "A brave new world", 1932));
-        bookList.add(new Book("J. R. R. Tolkien", "The Lord of the Rings", 1954));
+        bookList.add(new Book("Aldous Huxley", "A brave new world", 1932, true));
+        bookList.add(new Book("J. R. R. Tolkien", "The Lord of the Rings", 1954, true));
         biblioteca.setBooks(bookList);
         String userInput;
 
@@ -38,27 +39,60 @@ public class BibliotecaApp
 
     public String getAnswer(String _sUserInput)
     {
-        if (_sUserInput.equals(""))
+        if (bibliotecaState.equals("CHECKOUT_MENU"))
         {
-            return getGreeting() + getMenu();
-        }
-        else if (_sUserInput.equals("1"))
-        {
-            return getBookList();
-        }
-        else if (_sUserInput.equals("2"))
-        {
-            return "Please write the name of the Book that you want to Check-Out";
+            String bookName = _sUserInput.toLowerCase();
+            boolean foundBook = false;
+            boolean available = false;
+
+            for (Book b : bookList)
+            {
+                if (b.getNameOfTheBook().toLowerCase().equals(bookName))
+                {
+                    foundBook = true;
+
+                    if (b.getAvailabilityOfTheBook())
+                    {
+                        available = true;
+                    }
+                    break;
+                }
+            }
+            bibliotecaState = "IDLE";
+            if (foundBook && available)
+            {
+                return "Enjoy the book!";
+            }
+            else
+                {
+                  return "Sorry that book is not available";
+                }
+        }else{
+            if (_sUserInput.equals(""))
+            {
+                return getGreeting() + getMenu();
+            }
+            else if (_sUserInput.equals("1"))
+            {
+                return getBookList();
+            }
+            else if (_sUserInput.equals("2"))
+            {
+                bibliotecaState = "CHECKOUT_MENU";
+                return "Please write the name of the Book that you want to Check-Out";
+            }
+
+            else if (_sUserInput.equals("0"))
+            {
+                return "Thanks for using Biblioteca!";
+            }
+            else
+            {
+                return "Please select a valid option!\n" + getMenu();
+            }
+
         }
 
-        else if (_sUserInput.equals("0"))
-        {
-            return "Thanks for using Biblioteca!";
-        }
-        else
-        {
-            return "Please select a valid option!\n" + getMenu();
-        }
     }
 
 
@@ -95,5 +129,7 @@ public class BibliotecaApp
         System.out.println(message);
         return message;
     }
+
+
 
 }
