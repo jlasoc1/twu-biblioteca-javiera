@@ -14,7 +14,8 @@ public class BibliotecaApp
       }
 
     public static final String WELCOME = "Welcome to Biblioteca. Your one-stop-shop for great book titles in Bangalore\n";
-    public static final String MENU_OPTIONS = "This is the menu, you can select: \n '1. List of Books' \n '2. Checkout a Book' \n '0. Quit'";
+    public static final String MENU_OPTIONS = "This is the menu, you can select: \n '1. List of Books' \n " +
+            "'2. Check-out a Book' \n '3. Return a Book' \n '0. Quit'";
     private List<Book> bookList;
     private BibliotecaState bibliotecaState = BibliotecaState.IDLE;
 

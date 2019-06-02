@@ -9,14 +9,14 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-public class ExampleTest
+public class BibliotecaTest
   {
     //Test 1.1 & 1.4
     @Test
     public void shouldGetWelcomeMessageWhenNoOptionIsChoosed()
       {
         String sExpectedOutput = "Welcome to Biblioteca. Your one-stop-shop for great book titles in Bangalore\n" +
-                "This is the menu, you can select: \n '1. List of Books' \n '2. Checkout a Book' \n '0. Quit'";
+                "This is the menu, you can select: \n '1. List of Books' \n '2. Check-out a Book' \n '3. Return a Book' \n '0. Quit'";
         BibliotecaApp biblioteca = new BibliotecaApp();
         String sActualOutput = biblioteca.getAnswer("");
         assertEquals(sExpectedOutput, sActualOutput);
@@ -29,7 +29,7 @@ public class ExampleTest
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));
         String expectedWelcomeMessage = "Welcome to Biblioteca. Your one-stop-shop for great book titles in Bangalore\n" +
-                "This is the menu, you can select: \n '1. List of Books' \n '2. Checkout a Book' \n '0. Quit'";
+                "This is the menu, you can select: \n '1. List of Books' \n '2. Check-out a Book' \n '3. Return a Book' \n '0. Quit'";
         BibliotecaApp biblioteca = new BibliotecaApp();
         biblioteca.printMessage(expectedWelcomeMessage);
         assertEquals(expectedWelcomeMessage, outContent.toString().trim());
@@ -37,7 +37,7 @@ public class ExampleTest
 
     //Test 1.2
     @Test
-    public void testViewAListOfBooks()
+    public void testViewAListOfBooksSeparated()
       {
         BibliotecaApp biblioteca = new BibliotecaApp();
         List bookList = new ArrayList();
@@ -64,9 +64,20 @@ public class ExampleTest
         assertEquals(sExpectedOutput, sActualOutput);
       }
 
+    //Test 1.5
+    @Test
+    public void testInputNoValidMenuOption()
+      {
+        String sExpectedOutput = "Please select a valid option!\n" + "This is the menu, you can select: " +
+                "\n '1. List of Books' \n '2. Check-out a Book' \n '3. Return a Book' \n '0. Quit'";
+        BibliotecaApp biblioteca = new BibliotecaApp();
+        String sActualOutput = biblioteca.getAnswer("5");
+        assertEquals(sExpectedOutput, sActualOutput);
+      }
+
     //Test 1.6
     @Test
-    public void testInputZeroFromUser()
+    public void testQuiteTheAppWhenInputZeroFromUser()
       {
         String sExpectedOutput = "Thanks for using Biblioteca!";
         BibliotecaApp biblioteca = new BibliotecaApp();
@@ -74,9 +85,9 @@ public class ExampleTest
         assertEquals(sExpectedOutput, sActualOutput);
       }
 
-    //Test 1.7 (Checkout Menu)
+    //Test 1.7
     @Test
-    public void testInputTwoFromUser()
+    public void testEnterCheckOutMenuWhenInputTwoFromUser()
       {
         String sExpectedOutput = "Please write the name of the Book that you want to Check-Out";
         BibliotecaApp biblioteca = new BibliotecaApp();
@@ -86,7 +97,7 @@ public class ExampleTest
 
     //Test 1.8
     @Test
-    public void testGetABookCorrectly()
+    public void testCheckOutABookCorrectly()
       {
         BibliotecaApp biblioteca = new BibliotecaApp();
         List bookList = new ArrayList();
@@ -102,7 +113,7 @@ public class ExampleTest
 
     //Test 1.9
     @Test
-    public void testGetABookWithWrongName()
+    public void testCheckoutABookWithWrongName()
       {
         BibliotecaApp biblioteca = new BibliotecaApp();
         List bookList = new ArrayList();
@@ -118,7 +129,7 @@ public class ExampleTest
 
     //Test 1.9.2
     @Test
-    public void testGetABookCorrectlyAndTriedToTakeItAgainFailing()
+    public void testCheckOutABookCorrectlyAndTriedToCheckOutItAgainFailing()
       {
         BibliotecaApp biblioteca = new BibliotecaApp();
         List bookList = new ArrayList();
@@ -139,7 +150,7 @@ public class ExampleTest
 
     //Test 1.9.3
     @Test
-    public void testViewTheListOfBooksWhenICheckOutABook()
+    public void testViewTheListOfBooksAfterICheckOutABook()
       {
         BibliotecaApp biblioteca = new BibliotecaApp();
         List bookList = new ArrayList();
@@ -158,9 +169,9 @@ public class ExampleTest
         assertEquals(sExpectedOutput2, sActualOutput2);
       }
 
-    //Test 1.9.2
+    //Test 1.10
     @Test
-    public void testInputThreeFromUser()
+    public void testEnterReturnMenuWhenInputThreeFromUser()
       {
         String sExpectedOutput = "Please write the name of the Book that you want to Return";
         BibliotecaApp biblioteca = new BibliotecaApp();
@@ -168,9 +179,9 @@ public class ExampleTest
         assertEquals(sExpectedOutput, sActualOutput);
       }
 
-    //Test 1.9.3
+    //Test 1.11
     @Test
-    public void testGetABookCorrectlyAnReturnIt()
+    public void testCheckOutABookCorrectlyAnReturnIt()
       {
         BibliotecaApp biblioteca = new BibliotecaApp();
         List bookList = new ArrayList();
@@ -189,7 +200,7 @@ public class ExampleTest
         assertEquals(sExpectedOutput2, sActualOutput2);
       }
 
-    //Test 1.9.4
+    //Test 1.12
     @Test
     public void testGetABookCorrectlyAnReturnADifferentOne()
       {
@@ -208,18 +219,6 @@ public class ExampleTest
         String sActualOutput2 = biblioteca.getAnswer("The call of the Wild");
         String sExpectedOutput2 = "Sorry that book does not belong to Biblioteca";
         assertEquals(sExpectedOutput2, sActualOutput2);
-      }
-
-
-    //Test 1.5
-    @Test
-    public void testInputNoValidMenuOption()
-      {
-        String sExpectedOutput = "Please select a valid option!\n" + "This is the menu, you can select: \n " +
-                "'1. List of Books' \n '2. Checkout a Book' \n '0. Quit'";
-        BibliotecaApp biblioteca = new BibliotecaApp();
-        String sActualOutput = biblioteca.getAnswer("5");
-        assertEquals(sExpectedOutput, sActualOutput);
       }
 
 
