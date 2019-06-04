@@ -16,8 +16,9 @@ public class BibliotecaApp
     public static final String WELCOME = "Welcome to Biblioteca. Your one-stop-shop for great book titles in Bangalore\n";
     public static final String MENU_OPTIONS = "This is the menu, you can select: \n '1. List of Books' \n " +
             "'2. Check-out a Book' \n '3. Return a Book' \n '0. Quit'";
-    private List<Book> bookList;
     private BibliotecaState bibliotecaState = BibliotecaState.IDLE;
+    private Container bookContainer;
+    private Container movieContainer;
 
     public static void main(String[] args)
       {
@@ -25,14 +26,13 @@ public class BibliotecaApp
         BibliotecaApp biblioteca = new BibliotecaApp();
 
         System.out.println("" + biblioteca.getGreeting() + biblioteca.getMenu());
+
         boolean running = true;
         List bookList = new ArrayList();
         bookList.add(new Book("Aldous Huxley", "A brave new world", 1932, true));
         bookList.add(new Book("J. R. R. Tolkien", "The Lord of the Rings", 1954, true));
-        biblioteca.setBooks(bookList);
+        biblioteca.setBooksContainer(new Container(bookList));
         String userInput;
-
-
 
         while (running)
           {
@@ -44,18 +44,30 @@ public class BibliotecaApp
                 running = false;
               }
           }
+
       }
 
-    //Menu
+    public void setBooksContainer(Container container)
+      {
+        bookContainer = container;
+      }
+
+    public void setMoviesContainer(Container container)
+      {
+        movieContainer = container;
+      }
+
+
+
 
     public String getAnswer(String _sUserInput)
       {
         if (bibliotecaState == BibliotecaState.CHECKOUT_MENU)
           {
-            return handleCheckOutMenu(_sUserInput);
+            return handleCheckOutMenu(bookContainer, _sUserInput, "movie");
           } else if (bibliotecaState == BibliotecaState.RETURN_MENU)
           {
-            return handleReturnMenu(_sUserInput);
+            return handleReturnMenu(bookContainer, _sUserInput, "movie");
           } else
           {
             if (_sUserInput.equals(""))
@@ -63,7 +75,7 @@ public class BibliotecaApp
                 return getGreeting() + getMenu();
               } else if (_sUserInput.equals("1"))
               {
-                return getBookList();
+                return bookContainer.list();
               } else if (_sUserInput.equals("2"))
               {
                 bibliotecaState = BibliotecaState.CHECKOUT_MENU;
@@ -82,72 +94,31 @@ public class BibliotecaApp
           }
       }
 
-    private String handleCheckOutMenu(String _sUserInput)
+    private String handleCheckOutMenu(Container _container, String _sUserInput, String _type)
       {
         String bookName = _sUserInput.toLowerCase();
-        boolean foundBook = false;
-        boolean available = false;
-
-        for (Book b : bookList)
-          {
-            if (b.getNameOfTheBook().toLowerCase().equals(bookName))
-              {
-                foundBook = true;
-
-                if (b.getAvailabilityOfTheBook())
-                  {
-                    available = true;
-                    b.setAvailabilityOfTheBook(false);
-                  }
-                break;
-              }
-          }
+        Item i = _container.checkout(bookName);
         bibliotecaState = BibliotecaState.IDLE;
-        if (foundBook && available)
+        if (i != null)
           {
-            return "Enjoy the book!";
-          } else
-          {
-            return "Sorry that book is not available";
+            return "Enjoy the " +_type+ "!";
+
           }
+        return "Sorry that " +_type+ " is not available";
       }
 
-    private String handleReturnMenu(String _sUserInput)
+    private String handleReturnMenu(Container _container, String _sUserInput, String _type)
       {
         String bookName = _sUserInput.toLowerCase();
-        boolean foundBook = false;
-        boolean notAvailable = true;
-
-        for (Book b : bookList)
-          {
-            if (b.getNameOfTheBook().toLowerCase().equals(bookName))
-              {
-                foundBook = true;
-
-                if (b.getAvailabilityOfTheBook())
-                  {
-                    notAvailable = false;
-                    b.setAvailabilityOfTheBook(true);
-                  }
-                break;
-              }
-          }
+        Item i = _container.returnItem(bookName);
         bibliotecaState = BibliotecaState.IDLE;
-        if (foundBook && notAvailable)
+        if (i != null)
           {
-            return "Thank you for returning the book";
-          } else
-          {
-            return "Sorry that book does not belong to Biblioteca";
+            return "Thank you for returning the " +_type;
           }
+        return "Sorry that " +_type+ " does not belong to Biblioteca";
       }
 
-
-    public void setBooks(List bookList)
-      {
-        this.bookList = bookList;
-
-      }
 
     private String getGreeting()
       {
@@ -157,21 +128,6 @@ public class BibliotecaApp
     private String getMenu()
       {
         return MENU_OPTIONS;
-      }
-
-
-    public String getBookList()
-      {
-        String resultList = "";
-        for (Book b : bookList)
-          {
-            if (b.getAvailabilityOfTheBook())
-              {
-                resultList = resultList + b.getAuthorOfTheBook() + " : " + b.getNameOfTheBook() + " : "
-                        + b.getYearOfPublishing() + " " + "\n";
-              }
-          }
-        return resultList;
       }
 
 

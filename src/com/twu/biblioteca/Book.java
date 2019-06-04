@@ -1,7 +1,7 @@
 package com.twu.biblioteca;
 
 
-public class Book
+public class Book extends Item
   {
     private String authorOfTheBook;
     private String nameOfTheBook;
@@ -18,14 +18,15 @@ public class Book
       }
 
 
-   //getters
+
 
     public String getAuthorOfTheBook()
       {
         return authorOfTheBook;
       }
 
-    public String getNameOfTheBook()
+    @Override
+    public String getName()
       {
         return nameOfTheBook;
       }
@@ -35,18 +36,28 @@ public class Book
         return yearOfPublishing;
       }
 
-    public boolean getAvailabilityOfTheBook()
+    @Override
+    public boolean isAvailable()
       {
         return availabilityOfTheBook;
       }
 
 
     //setter
-
-    public void setAvailabilityOfTheBook(boolean availabilityOfTheBook)
+    @Override
+    public void setAvailability(boolean availabilityOfTheBook)
       {
         this.availabilityOfTheBook = availabilityOfTheBook;
       }
+
+    @Override
+    public String list()
+      {
+        return this.getAuthorOfTheBook() + " : " + this.getName() + " : "
+                + this.getYearOfPublishing() + " " + "\n";
+
+      }
+
   }
 
 

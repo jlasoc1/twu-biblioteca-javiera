@@ -11,6 +11,13 @@ import static org.junit.Assert.assertEquals;
 
 public class BibliotecaTest
   {
+    public Container getDummyContainer(){
+      List bookList = new ArrayList();
+      bookList.add(new Book("Aldous Huxley", "A brave new world", 1932, true));
+      bookList.add(new Book("J. R. R. Tolkien", "The Lord of the Rings", 1954, true));
+      return new Container(bookList);
+    }
+
     //Test 1.1 & 1.4
     @Test
     public void shouldGetWelcomeMessageWhenNoOptionIsChoosed()
@@ -40,10 +47,7 @@ public class BibliotecaTest
     public void testViewAListOfBooksSeparated()
       {
         BibliotecaApp biblioteca = new BibliotecaApp();
-        List bookList = new ArrayList();
-        bookList.add(new Book("Aldous Huxley", "A brave new world", 1932, true));
-        bookList.add(new Book("J. R. R. Tolkien", "The Lord of the Rings", 1954, true));
-        biblioteca.setBooks(bookList);
+        biblioteca.setBooksContainer(getDummyContainer());
         String sActualOutput = biblioteca.getAnswer("1");
         String[] sParts = sActualOutput.split("\n");
         assertEquals(2, sParts.length);
@@ -56,10 +60,7 @@ public class BibliotecaTest
         String sExpectedOutput = "Aldous Huxley : A brave new world : 1932 \nJ. R. R. Tolkien : The Lord of the Rings" +
                 " : 1954 \n";
         BibliotecaApp biblioteca = new BibliotecaApp();
-        List bookList = new ArrayList();
-        bookList.add(new Book("Aldous Huxley", "A brave new world", 1932, true));
-        bookList.add(new Book("J. R. R. Tolkien", "The Lord of the Rings", 1954, true));
-        biblioteca.setBooks(bookList);
+        biblioteca.setBooksContainer(getDummyContainer());
         String sActualOutput = biblioteca.getAnswer("1");
         assertEquals(sExpectedOutput, sActualOutput);
       }
@@ -100,10 +101,7 @@ public class BibliotecaTest
     public void testCheckOutABookCorrectly()
       {
         BibliotecaApp biblioteca = new BibliotecaApp();
-        List bookList = new ArrayList();
-        bookList.add(new Book("Aldous Huxley", "A brave new world", 1932, true));
-        bookList.add(new Book("J. R. R. Tolkien", "The Lord of the Rings", 1954, true));
-        biblioteca.setBooks(bookList);
+        biblioteca.setBooksContainer(getDummyContainer());
         biblioteca.getAnswer("");
         biblioteca.getAnswer("2");
         String sActualOutput = biblioteca.getAnswer("The Lord of the Rings");
@@ -116,10 +114,7 @@ public class BibliotecaTest
     public void testCheckoutABookWithWrongName()
       {
         BibliotecaApp biblioteca = new BibliotecaApp();
-        List bookList = new ArrayList();
-        bookList.add(new Book("Aldous Huxley", "A brave new world", 1932, true));
-        bookList.add(new Book("J. R. R. Tolkien", "The Lord of the Rings", 1954, true));
-        biblioteca.setBooks(bookList);
+        biblioteca.setBooksContainer(getDummyContainer());
         biblioteca.getAnswer("");
         biblioteca.getAnswer("2");
         String sActualOutput = biblioteca.getAnswer("The Lord");
@@ -132,10 +127,7 @@ public class BibliotecaTest
     public void testCheckOutABookCorrectlyAndTriedToCheckOutItAgainFailing()
       {
         BibliotecaApp biblioteca = new BibliotecaApp();
-        List bookList = new ArrayList();
-        bookList.add(new Book("Aldous Huxley", "A brave new world", 1932, true));
-        bookList.add(new Book("J. R. R. Tolkien", "The Lord of the Rings", 1954, true));
-        biblioteca.setBooks(bookList);
+        biblioteca.setBooksContainer(getDummyContainer());
         biblioteca.getAnswer("");
         biblioteca.getAnswer("2");
         String sActualOutput = biblioteca.getAnswer("The Lord of the Rings");
@@ -153,10 +145,7 @@ public class BibliotecaTest
     public void testViewTheListOfBooksAfterICheckOutABook()
       {
         BibliotecaApp biblioteca = new BibliotecaApp();
-        List bookList = new ArrayList();
-        bookList.add(new Book("Aldous Huxley", "A brave new world", 1932, true));
-        bookList.add(new Book("J. R. R. Tolkien", "The Lord of the Rings", 1954, true));
-        biblioteca.setBooks(bookList);
+        biblioteca.setBooksContainer(getDummyContainer());
         biblioteca.getAnswer("");
         biblioteca.getAnswer("2");
         String sActualOutput = biblioteca.getAnswer("The Lord of the Rings");
@@ -184,10 +173,7 @@ public class BibliotecaTest
     public void testCheckOutABookCorrectlyAnReturnIt()
       {
         BibliotecaApp biblioteca = new BibliotecaApp();
-        List bookList = new ArrayList();
-        bookList.add(new Book("Aldous Huxley", "A brave new world", 1932, true));
-        bookList.add(new Book("J. R. R. Tolkien", "The Lord of the Rings", 1954, true));
-        biblioteca.setBooks(bookList);
+        biblioteca.setBooksContainer(getDummyContainer());
         biblioteca.getAnswer("");
         biblioteca.getAnswer("2");
         String sActualOutput = biblioteca.getAnswer("The Lord of the Rings");
@@ -205,10 +191,7 @@ public class BibliotecaTest
     public void testGetABookCorrectlyAnReturnADifferentOne()
       {
         BibliotecaApp biblioteca = new BibliotecaApp();
-        List bookList = new ArrayList();
-        bookList.add(new Book("Aldous Huxley", "A brave new world", 1932, true));
-        bookList.add(new Book("J. R. R. Tolkien", "The Lord of the Rings", 1954, true));
-        biblioteca.setBooks(bookList);
+        biblioteca.setBooksContainer(getDummyContainer());
         biblioteca.getAnswer("");
         biblioteca.getAnswer("2");
         String sActualOutput = biblioteca.getAnswer("The Lord of the Rings");
