@@ -15,7 +15,8 @@ public class BibliotecaApp
         CHECKOUT_MOVIE,
         RETURN_MOVIE,
         BOOK_MENU,
-        MOVIE_MENU
+        MOVIE_MENU,
+        MY_ACCOUNT_MENU
       }
 
     public static final String WELCOME = "Welcome to Biblioteca. Your one-stop-shop for great book titles in Bangalore\n";
@@ -23,6 +24,8 @@ public class BibliotecaApp
             "'2. Check-out a Book' \n '3. Return a Book' \n '0. Quit'";
     public static final String MENU_MOVIE_OPTIONS = "This is the menu, you can select: \n '1. List of Movies' \n " +
             "'2. Check-out a Movie' \n '3. Return a Movie' \n '0. Quit'";
+    public static final String MY_ACCOUNT_MENU = "This is your menu, you can select: \n '1. My information' \n " +
+            "'2. Books that I've checked-out' \n '0. Quit'";
     public static final String MAIN_MENU_OPTIONS = "Please select the right option for you\n '1. Books' \n " +
             "'2. Movies' \n '3. My Account' \n '0. Quit'";
     public static final String INVALID_INPUT_MESSAGE = "Please select a valid option!\n";
@@ -94,6 +97,12 @@ public class BibliotecaApp
                   {
                     bibliotecaState = BibliotecaState.MOVIE_MENU;
                     return getMovieMenu();
+                  }
+                  case 3:
+                  {
+                    bibliotecaState = BibliotecaState.MY_ACCOUNT_MENU;
+                    return getMyAccountMenu();
+
                   }
                   case 0:
                   {
@@ -178,21 +187,48 @@ public class BibliotecaApp
                     return getNotValidOptionMessage() + getMovieMenu();
                   }
                 }
+            }
+            case MY_ACCOUNT_MENU:
+            {
+              int option = Integer.parseInt(_sUserInput);
+              switch (option)
+                {
+                  case 1:
+                  {
+
+                  }
+                  case 2:
+                  {
+
+                  }
+
+                  case 0:
+                  {
+                    return getExitMessage();
+                  }
+                  default:
+                  {
+                    return getNotValidOptionMessage() + getMyAccountMenu();
+                  }
+                }
 
             }
             default:
             {
-              throw new RuntimeException("Not valid state!");
+              throw new RuntimeException("Not a valid state!");
             }
           }
 
 
       }
 
+
+
+
     private String handleCheckOutMenu(Container _container, String _sUserInput, String _type)
       {
-        String bookName = _sUserInput.toLowerCase();
-        Item i = _container.checkout(bookName);
+        String ItemName = _sUserInput.toLowerCase();
+        Item i = _container.checkout(ItemName);
         bibliotecaState = BibliotecaState.GENERAL_MENU;
         if (i != null)
           {
@@ -204,8 +240,8 @@ public class BibliotecaApp
 
     private String handleReturnMenu(Container _container, String _sUserInput, String _type)
       {
-        String bookName = _sUserInput.toLowerCase();
-        Item i = _container.returnItem(bookName);
+        String ItemName = _sUserInput.toLowerCase();
+        Item i = _container.returnItem(ItemName);
         bibliotecaState = BibliotecaState.GENERAL_MENU;
         if (i != null)
           {
@@ -233,6 +269,11 @@ public class BibliotecaApp
     private String getMovieMenu()
       {
         return MENU_MOVIE_OPTIONS;
+      }
+
+    private String getMyAccountMenu()
+      {
+        return MY_ACCOUNT_MENU;
       }
 
     private String getExitMessage()

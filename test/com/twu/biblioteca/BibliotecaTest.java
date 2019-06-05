@@ -11,12 +11,13 @@ import static org.junit.Assert.assertEquals;
 
 public class BibliotecaTest
   {
-    public Container getDummyContainer(){
-      List bookList = new ArrayList();
-      bookList.add(new Book("Aldous Huxley", "A brave new world", 1932, true));
-      bookList.add(new Book("J. R. R. Tolkien", "The Lord of the Rings", 1954, true));
-      return new Container(bookList);
-    }
+    public Container getDummyContainer()
+      {
+        List bookList = new ArrayList();
+        bookList.add(new Book("Aldous Huxley", "A brave new world", 1932, true));
+        bookList.add(new Book("J. R. R. Tolkien", "The Lord of the Rings", 1954, true));
+        return new Container(bookList);
+      }
 
 
     @Test
