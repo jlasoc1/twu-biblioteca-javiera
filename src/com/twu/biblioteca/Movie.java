@@ -55,9 +55,9 @@ public class Movie extends Item
 
     //setter
     @Override
-    public void setAvailability(boolean availabilityOfTheBook)
+    public void setAvailability(boolean availability)
       {
-        this.availabilityOfTheMovie = availabilityOfTheMovie;
+        this.availabilityOfTheMovie = availability;
       }
 
     @Override
@@ -65,8 +65,7 @@ public class Movie extends Item
       {
         String sep = " : ";
         return this.getName() + sep + this.getYearOfPremiere() + sep
-                + this.getDirectorOfTheMovie() + sep + this.ratingOfTheMovie + sep + this.ratingOfTheMovie
-                + sep + this.availabilityOfTheMovie + "\n";
+                + this.getDirectorOfTheMovie() + sep + this.ratingOfTheMovie + "\n";
 
       }
 
