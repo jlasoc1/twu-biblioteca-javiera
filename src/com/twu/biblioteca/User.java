@@ -2,7 +2,7 @@ package com.twu.biblioteca;
 
 import java.util.List;
 
-public class User
+public class User extends Item
   {
 
     private String userLibraryNumber;
@@ -10,7 +10,6 @@ public class User
     private String userPassword;
     private String userPhone;
     private String userEmail;
-    private boolean hasCheckedOut;
     private List<Item> userListOfCheckedOutList;
 
     public User(String userLibraryNumber,String userName, String userPassword, String userEmail, List<Item> userListOfCheckedOutList, String userPhone)
@@ -20,7 +19,6 @@ public class User
         this.userPassword = userPassword;
         this.userPhone = userPhone;
         this.userEmail = userEmail;
-        //this.hasCheckedOut = hasCheckedOut;
         this.userListOfCheckedOutList = userListOfCheckedOutList;
       }
 
@@ -59,6 +57,30 @@ public class User
         this.userListOfCheckedOutList = userListOfCheckedOutList;
       }
 
+    @Override
+    public boolean isAvailable()
+      {
+        return false;
+      }
+
+    @Override
+    public void setAvailability(boolean availability)
+      {
+
+      }
+
+    @Override
+    public String getName()
+      {
+        return null;
+      }
+
+    @Override
+    public String list()
+      {
+        return this.getName() + " : " + this.getUserEmail() + " : "
+                + this.getUserPhone() + " " + "\n";
+      }
 
 
   }

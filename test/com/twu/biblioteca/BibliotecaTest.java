@@ -11,23 +11,36 @@ import static org.junit.Assert.assertEquals;
 
 public class BibliotecaTest
   {
-    public Container getDummyContainer()
+
+    public BibliotecaApp getDummyBiblioteca()
       {
+        BibliotecaApp biblioteca = new BibliotecaApp();
         List bookList = new ArrayList();
         bookList.add(new Book("Aldous Huxley", "A brave new world", 1932, true));
         bookList.add(new Book("J. R. R. Tolkien", "The Lord of the Rings", 1954, true));
-        return new Container(bookList);
+        biblioteca.setBooksContainer(new Container(bookList));
+        List movieList = new ArrayList();
+        movieList.add(new Movie("A Clockwork Orange", 1971, "Stanley Kubrick", 8, true, true));
+        movieList.add(new Movie("Big Fish", 2003, "Tim Burton", 8, true, true));
+        biblioteca.setMoviesContainer(new Container(movieList));
+        List userList = new ArrayList();
+        userList.add(new User("100-0001", "Sebastián Céspedes", "123abc",
+                "scespedes@thoughtworks.com", movieList, "+56975647764"));
+        userList.add(new User("100-0002", "Andrés Fuentes", "123abc",
+                "afuentes@thoughtworks.com", movieList, "+56945621345"));
+        biblioteca.setUserList(userList);
+        return biblioteca;
       }
 
 
     @Test
     public void shouldGetWelcomeMessageWhenNoOptionIsChoosed()
       {
-        String sExpectedOutput = "Welcome to Biblioteca. Your one-stop-shop for great book titles in Bangalore\n" +
-                "Please select the right option for you\n '1. Books' \n " +
+
+        String sExpectedOutput = "Please select the right option for you\n '1. Books' \n " +
                 "'2. Movies' \n '3. My Account' \n '0. Quit'";
-        BibliotecaApp biblioteca = new BibliotecaApp();
-        String sActualOutput = biblioteca.getAnswer("");
+        BibliotecaApp biblioteca = getDummyBiblioteca();
+        String sActualOutput = biblioteca.getAnswer("100-0001,123abc");
         assertEquals(sExpectedOutput, sActualOutput);
       }
 
@@ -37,8 +50,8 @@ public class BibliotecaTest
       {
         String sExpectedOutput = "This is the menu, you can select: \n '1. List of Books' \n " +
                 "'2. Check-out a Book' \n '3. Return a Book' \n '0. Quit'";
-        BibliotecaApp biblioteca = new BibliotecaApp();
-        String sActualOutput2 = biblioteca.getAnswer("");
+        BibliotecaApp biblioteca = getDummyBiblioteca();
+        biblioteca.getAnswer("100-0001,123abc");
         String sActualOutput = biblioteca.getAnswer("1");
         assertEquals(sExpectedOutput, sActualOutput);
       }
@@ -61,10 +74,10 @@ public class BibliotecaTest
     @Test
     public void testViewAListOfBooksSeparated()
       {
-        BibliotecaApp biblioteca = new BibliotecaApp();
-        biblioteca.setBooksContainer(getDummyContainer());
-        String sActualOutput3 = biblioteca.getAnswer("1");
-        String sActualOutput2 = biblioteca.getAnswer("1");
+        BibliotecaApp biblioteca = getDummyBiblioteca();
+        biblioteca.getAnswer("100-0001,123abc");
+        biblioteca.getAnswer("1");
+        biblioteca.getAnswer("1");
         String sActualOutput = biblioteca.getAnswer("1");
         String[] sParts = sActualOutput.split("\n");
         assertEquals(2, sParts.length);
@@ -76,10 +89,10 @@ public class BibliotecaTest
       {
         String sExpectedOutput = "Aldous Huxley : A brave new world : 1932 \nJ. R. R. Tolkien : The Lord of the Rings" +
                 " : 1954 \n";
-        BibliotecaApp biblioteca = new BibliotecaApp();
-        biblioteca.setBooksContainer(getDummyContainer());
-        String sActualOutput3 = biblioteca.getAnswer("1");
-        String sActualOutput2 = biblioteca.getAnswer("1");
+        BibliotecaApp biblioteca = getDummyBiblioteca();
+        biblioteca.getAnswer("100-0001,123abc");
+        biblioteca.getAnswer("1");
+        biblioteca.getAnswer("1");
         String sActualOutput = biblioteca.getAnswer("1");
         assertEquals(sExpectedOutput, sActualOutput);
       }
@@ -90,9 +103,10 @@ public class BibliotecaTest
       {
         String sExpectedOutput = "Please select a valid option!\n" + "This is the menu, you can select: " +
                 "\n '1. List of Books' \n '2. Check-out a Book' \n '3. Return a Book' \n '0. Quit'";
-        BibliotecaApp biblioteca = new BibliotecaApp();
-        String sActualOutput3 = biblioteca.getAnswer("1");
-        String sActualOutput2 = biblioteca.getAnswer("1");
+        BibliotecaApp biblioteca = getDummyBiblioteca();
+        biblioteca.getAnswer("100-0001,123abc");
+        biblioteca.getAnswer("1");
+        biblioteca.getAnswer("1");
         String sActualOutput = biblioteca.getAnswer("5");
         assertEquals(sExpectedOutput, sActualOutput);
       }
@@ -102,7 +116,8 @@ public class BibliotecaTest
     public void testQuiteTheAppWhenInputZeroFromUser()
       {
         String sExpectedOutput = "Thanks for using Biblioteca!";
-        BibliotecaApp biblioteca = new BibliotecaApp();
+        BibliotecaApp biblioteca = getDummyBiblioteca();
+        biblioteca.getAnswer("100-0001,123abc");
         biblioteca.getAnswer("1");
         biblioteca.getAnswer("1");
         String sActualOutput = biblioteca.getAnswer("0");
@@ -114,7 +129,8 @@ public class BibliotecaTest
     public void testEnterCheckOutMenuWhenInputTwoFromUser()
       {
         String sExpectedOutput = "Please write the name of the Book that you want to Check-Out";
-        BibliotecaApp biblioteca = new BibliotecaApp();
+        BibliotecaApp biblioteca = getDummyBiblioteca();
+        biblioteca.getAnswer("100-0001,123abc");
         biblioteca.getAnswer("1");
         biblioteca.getAnswer("1");
         String sActualOutput = biblioteca.getAnswer("2");
@@ -125,9 +141,8 @@ public class BibliotecaTest
     @Test
     public void testCheckOutABookCorrectly()
       {
-        BibliotecaApp biblioteca = new BibliotecaApp();
-        biblioteca.setBooksContainer(getDummyContainer());
-        biblioteca.getAnswer("");
+        BibliotecaApp biblioteca = getDummyBiblioteca();
+        biblioteca.getAnswer("100-0001,123abc");
         biblioteca.getAnswer("1");
         biblioteca.getAnswer("2");
         String sActualOutput = biblioteca.getAnswer("The Lord of the Rings");
@@ -139,9 +154,8 @@ public class BibliotecaTest
     @Test
     public void testCheckoutABookWithWrongName()
       {
-        BibliotecaApp biblioteca = new BibliotecaApp();
-        biblioteca.setBooksContainer(getDummyContainer());
-        biblioteca.getAnswer("");
+        BibliotecaApp biblioteca = getDummyBiblioteca();
+        biblioteca.getAnswer("100-0001,123abc");
         biblioteca.getAnswer("1");
         biblioteca.getAnswer("2");
         String sActualOutput = biblioteca.getAnswer("The Lord");
@@ -153,9 +167,8 @@ public class BibliotecaTest
     @Test
     public void testCheckOutABookCorrectlyAndTriedToCheckOutItAgainFailing()
       {
-        BibliotecaApp biblioteca = new BibliotecaApp();
-        biblioteca.setBooksContainer(getDummyContainer());
-        biblioteca.getAnswer("");
+        BibliotecaApp biblioteca = getDummyBiblioteca();
+        biblioteca.getAnswer("100-0001,123abc");
         biblioteca.getAnswer("1");
         biblioteca.getAnswer("2");
         String sActualOutput = biblioteca.getAnswer("The Lord of the Rings");
@@ -173,9 +186,8 @@ public class BibliotecaTest
     @Test
     public void testViewTheListOfBooksAfterICheckOutABook()
       {
-        BibliotecaApp biblioteca = new BibliotecaApp();
-        biblioteca.setBooksContainer(getDummyContainer());
-        biblioteca.getAnswer("");
+        BibliotecaApp biblioteca = getDummyBiblioteca();
+        biblioteca.getAnswer("100-0001,123abc");
         biblioteca.getAnswer("1");
         biblioteca.getAnswer("2");
         String sActualOutput = biblioteca.getAnswer("The Lord of the Rings");
@@ -194,8 +206,8 @@ public class BibliotecaTest
     public void testEnterReturnMenuWhenInputThreeFromUser()
       {
         String sExpectedOutput = "Please write the name of the Book that you want to Return";
-        BibliotecaApp biblioteca = new BibliotecaApp();
-        biblioteca.getAnswer("");
+        BibliotecaApp biblioteca = getDummyBiblioteca();
+        biblioteca.getAnswer("100-0001,123abc");
         biblioteca.getAnswer("1");
         String sActualOutput = biblioteca.getAnswer("3");
         assertEquals(sExpectedOutput, sActualOutput);
@@ -205,9 +217,8 @@ public class BibliotecaTest
     @Test
     public void testCheckOutABookCorrectlyAnReturnIt()
       {
-        BibliotecaApp biblioteca = new BibliotecaApp();
-        biblioteca.setBooksContainer(getDummyContainer());
-        biblioteca.getAnswer("");
+        BibliotecaApp biblioteca = getDummyBiblioteca();
+        biblioteca.getAnswer("100-0001,123abc");
         biblioteca.getAnswer("1");
         biblioteca.getAnswer("2");
         String sActualOutput = biblioteca.getAnswer("The Lord of the Rings");
@@ -225,9 +236,8 @@ public class BibliotecaTest
     @Test
     public void testGetABookCorrectlyAnReturnADifferentOne()
       {
-        BibliotecaApp biblioteca = new BibliotecaApp();
-        biblioteca.setBooksContainer(getDummyContainer());
-        biblioteca.getAnswer("");
+        BibliotecaApp biblioteca = getDummyBiblioteca();
+        biblioteca.getAnswer("100-0001,123abc");
         biblioteca.getAnswer("1");
         biblioteca.getAnswer("2");
         String sActualOutput = biblioteca.getAnswer("The Lord of the Rings");

@@ -8,12 +8,25 @@ import static org.junit.Assert.assertEquals;
 
 public class MoviesTest
   {
-    public Container getDummyContainer(){
-      List movieList = new ArrayList();
-      movieList.add(new Movie("A Clockwork Orange", 1971, "Stanley Kubrick", 8, true, true));
-      movieList.add(new Movie("Big Fish", 2003, "Tim Burton", 8, true, true));
-      return new Container(movieList);
-    }
+    public BibliotecaApp getDummyBiblioteca()
+      {
+        BibliotecaApp biblioteca = new BibliotecaApp();
+        List bookList = new ArrayList();
+        bookList.add(new Book("Aldous Huxley", "A brave new world", 1932, true));
+        bookList.add(new Book("J. R. R. Tolkien", "The Lord of the Rings", 1954, true));
+        biblioteca.setBooksContainer(new Container(bookList));
+        List movieList = new ArrayList();
+        movieList.add(new Movie("A Clockwork Orange", 1971, "Stanley Kubrick", 8, true, true));
+        movieList.add(new Movie("Big Fish", 2003, "Tim Burton", 8, true, true));
+        biblioteca.setMoviesContainer(new Container(movieList));
+        List userList = new ArrayList();
+        userList.add(new User("100-0001", "Sebastián Céspedes", "123abc",
+                "scespedes@thoughtworks.com", movieList, "+56975647764"));
+        userList.add(new User("100-0002", "Andrés Fuentes", "123abc",
+                "afuentes@thoughtworks.com", movieList, "+56945621345"));
+        biblioteca.setUserList(userList);
+        return biblioteca;
+      }
 
 
     //Test 1.1 & 1.4
@@ -22,8 +35,8 @@ public class MoviesTest
       {
         String sExpectedOutput = "This is the menu, you can select: \n '1. List of Movies' \n " +
                 "'2. Check-out a Movie' \n '3. Return a Movie' \n '0. Quit'";
-        BibliotecaApp biblioteca = new BibliotecaApp();
-        biblioteca.getAnswer("");
+        BibliotecaApp biblioteca = getDummyBiblioteca();
+        biblioteca.getAnswer("100-0001,123abc");
         String sActualOutput = biblioteca.getAnswer("2");
         assertEquals(sExpectedOutput, sActualOutput);
       }
@@ -33,9 +46,8 @@ public class MoviesTest
     @Test
     public void testViewAListOfBooksSeparated()
       {
-        BibliotecaApp biblioteca = new BibliotecaApp();
-        biblioteca.setMoviesContainer(getDummyContainer());
-        biblioteca.getAnswer("");
+        BibliotecaApp biblioteca = getDummyBiblioteca();
+        biblioteca.getAnswer("100-0001,123abc");
         biblioteca.getAnswer("2");
         String sActualOutput = biblioteca.getAnswer("1");
         String[] sParts = sActualOutput.split("\n");
@@ -48,9 +60,8 @@ public class MoviesTest
       {
         String sExpectedOutput = "A Clockwork Orange : 1971 : Stanley Kubrick : 8\n" +
         "Big Fish : 2003 : Tim Burton : 8\n";
-        BibliotecaApp biblioteca = new BibliotecaApp();
-        biblioteca.setMoviesContainer(getDummyContainer());
-        biblioteca.getAnswer("");
+        BibliotecaApp biblioteca = getDummyBiblioteca();
+        biblioteca.getAnswer("100-0001,123abc");
         biblioteca.getAnswer("2");
         String sActualOutput = biblioteca.getAnswer("1");
         assertEquals(sExpectedOutput, sActualOutput);
@@ -62,8 +73,8 @@ public class MoviesTest
       {
         String sExpectedOutput = "Please select a valid option!\n" + "This is the menu, you can select: \n '1. List of Movies' \n " +
                 "'2. Check-out a Movie' \n '3. Return a Movie' \n '0. Quit'";
-        BibliotecaApp biblioteca = new BibliotecaApp();
-        biblioteca.getAnswer("1");
+        BibliotecaApp biblioteca = getDummyBiblioteca();
+        biblioteca.getAnswer("100-0001,123abc");
         biblioteca.getAnswer("2");
         String sActualOutput = biblioteca.getAnswer("5");
         assertEquals(sExpectedOutput, sActualOutput);
@@ -74,8 +85,8 @@ public class MoviesTest
     public void testQuiteTheAppWhenInputZeroFromUser()
       {
         String sExpectedOutput = "Thanks for using Biblioteca!";
-        BibliotecaApp biblioteca = new BibliotecaApp();
-        biblioteca.getAnswer("1");
+        BibliotecaApp biblioteca = getDummyBiblioteca();
+        biblioteca.getAnswer("100-0001,123abc");
         biblioteca.getAnswer("2");
         String sActualOutput = biblioteca.getAnswer("0");
         assertEquals(sExpectedOutput, sActualOutput);
@@ -86,8 +97,8 @@ public class MoviesTest
     public void testEnterCheckOutMenuWhenInputTwoFromUser()
       {
         String sExpectedOutput = "Please write the name of the Movie that you want to Check-Out";
-        BibliotecaApp biblioteca = new BibliotecaApp();
-        biblioteca.getAnswer("1");
+        BibliotecaApp biblioteca = getDummyBiblioteca();
+        biblioteca.getAnswer("100-0001,123abc");
         biblioteca.getAnswer("2");
         String sActualOutput = biblioteca.getAnswer("2");
         assertEquals(sExpectedOutput, sActualOutput);
@@ -97,9 +108,8 @@ public class MoviesTest
     @Test
     public void testCheckOutAMovieCorrectly()
       {
-        BibliotecaApp biblioteca = new BibliotecaApp();
-        biblioteca.setMoviesContainer(getDummyContainer());
-        biblioteca.getAnswer("");
+        BibliotecaApp biblioteca = getDummyBiblioteca();
+        biblioteca.getAnswer("100-0001,123abc");
         biblioteca.getAnswer("2");
         biblioteca.getAnswer("2");
         String sActualOutput = biblioteca.getAnswer("A Clockwork Orange");
@@ -111,9 +121,8 @@ public class MoviesTest
     @Test
     public void testCheckoutAMovieWithWrongName()
       {
-        BibliotecaApp biblioteca = new BibliotecaApp();
-        biblioteca.setMoviesContainer(getDummyContainer());
-        biblioteca.getAnswer("");
+        BibliotecaApp biblioteca = getDummyBiblioteca();
+        biblioteca.getAnswer("100-0001,123abc");
         biblioteca.getAnswer("2");
         biblioteca.getAnswer("2");
         String sActualOutput = biblioteca.getAnswer("A Clockwork Orange");
@@ -131,9 +140,8 @@ public class MoviesTest
     @Test
     public void testCheckOutABookCorrectlyAndTriedToCheckOutItAgainFailing()
       {
-        BibliotecaApp biblioteca = new BibliotecaApp();
-        biblioteca.setMoviesContainer(getDummyContainer());
-        biblioteca.getAnswer("");
+        BibliotecaApp biblioteca = getDummyBiblioteca();
+        biblioteca.getAnswer("100-0001,123abc");
         biblioteca.getAnswer("2");
         biblioteca.getAnswer("2");
         String sActualOutput = biblioteca.getAnswer("A Clockwork Orange");
@@ -151,9 +159,8 @@ public class MoviesTest
     @Test
     public void testViewTheListOfBooksAfterICheckOutAMovie()
       {
-        BibliotecaApp biblioteca = new BibliotecaApp();
-        biblioteca.setMoviesContainer(getDummyContainer());
-        biblioteca.getAnswer("");
+        BibliotecaApp biblioteca = getDummyBiblioteca();
+        biblioteca.getAnswer("100-0001,123abc");
         biblioteca.getAnswer("2");
         biblioteca.getAnswer("2");
         String sActualOutput = biblioteca.getAnswer("A Clockwork Orange");
@@ -171,8 +178,8 @@ public class MoviesTest
     public void testEnterReturnMenuWhenInputThreeFromUser()
       {
         String sExpectedOutput = "Please write the name of the Movie that you want to Return";
-        BibliotecaApp biblioteca = new BibliotecaApp();
-        biblioteca.getAnswer("");
+        BibliotecaApp biblioteca = getDummyBiblioteca();
+        biblioteca.getAnswer("100-0001,123abc");
         biblioteca.getAnswer("2");
         String sActualOutput = biblioteca.getAnswer("3");
         assertEquals(sExpectedOutput, sActualOutput);
@@ -182,9 +189,8 @@ public class MoviesTest
     @Test
     public void testCheckOutABookCorrectlyAnReturnIt()
       {
-        BibliotecaApp biblioteca = new BibliotecaApp();
-        biblioteca.setMoviesContainer(getDummyContainer());
-        biblioteca.getAnswer("");
+        BibliotecaApp biblioteca = getDummyBiblioteca();
+        biblioteca.getAnswer("100-0001,123abc");
         biblioteca.getAnswer("2");
         biblioteca.getAnswer("2");
         String sActualOutput = biblioteca.getAnswer("A Clockwork Orange");
@@ -202,9 +208,8 @@ public class MoviesTest
     @Test
     public void testGetABookCorrectlyAnReturnADifferentOne()
       {
-        BibliotecaApp biblioteca = new BibliotecaApp();
-        biblioteca.setMoviesContainer(getDummyContainer());
-        biblioteca.getAnswer("");
+        BibliotecaApp biblioteca = getDummyBiblioteca();
+        biblioteca.getAnswer("100-0001,123abc");
         biblioteca.getAnswer("2");
         biblioteca.getAnswer("2");
         String sActualOutput = biblioteca.getAnswer("A Clockwork Orange");

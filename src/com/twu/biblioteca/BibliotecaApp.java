@@ -1,5 +1,7 @@
 package com.twu.biblioteca;
 
+import java.io.InputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -16,7 +18,8 @@ public class BibliotecaApp
         RETURN_MOVIE,
         BOOK_MENU,
         MOVIE_MENU,
-        MY_ACCOUNT_MENU
+        MY_ACCOUNT_MENU,
+        LOGIN
       }
 
     public static final String WELCOME = "Welcome to Biblioteca. Your one-stop-shop for great book titles in Bangalore\n";
@@ -30,36 +33,74 @@ public class BibliotecaApp
             "'2. Movies' \n '3. My Account' \n '0. Quit'";
     public static final String INVALID_INPUT_MESSAGE = "Please select a valid option!\n";
     public static final String EXIT_MESSAGE = "Thanks for using Biblioteca!";
-    private BibliotecaState bibliotecaState = BibliotecaState.IDLE;
+    public static final String USER_LOGIN = "Please enter your user (xxx-xxxx) and password separated by a comma ','";
+
+    private BibliotecaState bibliotecaState = BibliotecaState.LOGIN;
     private Container bookContainer;
     private Container movieContainer;
+    private List<User> userList;
+    private InputStream input;
+    private PrintStream output;
 
-    public static void main(String[] args)
+
+    public BibliotecaApp(InputStream in, PrintStream out)
       {
-        Scanner inputOption = new Scanner(System.in);
-        BibliotecaApp biblioteca = new BibliotecaApp();
+        this.input = in;
+        this.output = out;
+      }
 
-        System.out.println("" + biblioteca.getGreeting() + biblioteca.getMenu());
+    public BibliotecaApp()
+      {
+        this.input = System.in;
+        this.output = System.out;
+      }
 
+    public void Start()
+      {
+        Scanner inputOption = new Scanner(this.input);
         boolean running = true;
-        List bookList = new ArrayList();
-        bookList.add(new Book("Aldous Huxley", "A brave new world", 1932, true));
-        bookList.add(new Book("J. R. R. Tolkien", "The Lord of the Rings", 1954, true));
-        biblioteca.setBooksContainer(new Container(bookList));
         String userInput;
+
+        this.printMessage(getGreeting() + getUserLoginMessage());
 
 
         while (running)
           {
             userInput = inputOption.nextLine();
-            String bibliotecaAnswer = biblioteca.getAnswer(userInput);
-            biblioteca.printMessage(bibliotecaAnswer);
-            if (userInput.toLowerCase().contains("0"))
+            String bibliotecaAnswer = this.getAnswer(userInput);
+            this.printMessage(bibliotecaAnswer);
+            if (userInput.toLowerCase().equals("0"))
               {
                 running = false;
               }
           }
+      }
 
+
+    public void loadData()
+      {
+        List bookList = new ArrayList();
+        bookList.add(new Book("Aldous Huxley", "A brave new world", 1932, true));
+        bookList.add(new Book("J. R. R. Tolkien", "The Lord of the Rings", 1954, true));
+        this.setBooksContainer(new Container(bookList));
+
+        List movieList = new ArrayList();
+        movieList.add(new Movie("A Clockwork Orange", 1971, "Stanley Kubrick", 8, true, true));
+        movieList.add(new Movie("Big Fish", 2003, "Tim Burton", 8, true, true));
+        this.setMoviesContainer(new Container(movieList));
+
+        List userList = new ArrayList();
+        userList.add(new User("100-0001", "Sebastián Céspedes", "123abc",
+                "scespedes@thoughtworks.com", movieList, "+56975647764"));
+        userList.add(new User("100-0002", "Andrés Fuentes", "123abc",
+                "afuentes@thoughtworks.com", movieList, "+56945621345"));
+        this.setUserList(userList);
+
+      }
+
+    public void setUserList(List userList)
+      {
+        this.userList = userList;
       }
 
 
@@ -74,10 +115,29 @@ public class BibliotecaApp
       }
 
 
+
+
     public String getAnswer(String _sUserInput)
       {
         switch (bibliotecaState)
           {
+            case LOGIN:
+            {
+
+              bibliotecaState = BibliotecaState.GENERAL_MENU;
+              String[] parts = _sUserInput.split(",");
+              String user = parts[0];
+              String pass = parts[1];
+              Boolean login = validateUserLogin(user, pass);
+              if (login)
+                {
+                  return getMainMenu();
+                }
+              else
+                {
+                  return getNotValidOptionMessage() + getUserLoginMessage();
+                }
+            }
             case IDLE:
             {
               bibliotecaState = BibliotecaState.GENERAL_MENU;
@@ -110,7 +170,7 @@ public class BibliotecaApp
                   }
                   default:
                   {
-                    return getNotValidOptionMessage() + getMenu();
+                    return getNotValidOptionMessage() + getMainMenu();
                   }
                 }
             }
@@ -196,6 +256,7 @@ public class BibliotecaApp
                   case 1:
                   {
 
+
                   }
                   case 2:
                   {
@@ -223,8 +284,6 @@ public class BibliotecaApp
       }
 
 
-
-
     private String handleCheckOutMenu(Container _container, String _sUserInput, String _type)
       {
         String ItemName = _sUserInput.toLowerCase();
@@ -249,6 +308,22 @@ public class BibliotecaApp
           }
         return "Sorry that " + _type + " does not belong to Biblioteca";
       }
+
+    private Boolean validateUserLogin(String _user, String _password)
+      {
+        for (User u : userList)
+          {
+            String user_aux = u.getUserLibraryNumber();
+            String pass_aux = u.getUserPassword();
+            if(_user.toLowerCase().equals(user_aux) && _password.toLowerCase().equals(pass_aux))
+            {
+              return true;
+            }
+          }
+        return false;
+      }
+
+
 
 
     private String getGreeting()
@@ -286,11 +361,16 @@ public class BibliotecaApp
         return INVALID_INPUT_MESSAGE;
       }
 
-
-    public String printMessage(String message)
+    private String getUserLoginMessage()
       {
-        System.out.println(message);
-        return message;
+        return USER_LOGIN;
+      }
+
+
+
+    public void printMessage(String message)
+      {
+        this.output.println(message);
       }
 
 
