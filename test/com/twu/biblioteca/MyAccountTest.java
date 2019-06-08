@@ -25,9 +25,9 @@ public class MyAccountTest
         biblioteca.setMoviesContainer(new Container(movieList));
         List userList = new ArrayList();
         userList.add(new User("100-0001", "Sebastián Céspedes", "123abc",
-                "scespedes@thoughtworks.com", movieList, "+56975647764"));
-        userList.add(new User("100-0002", "Andrés Fuentes", "123abc",
-                "afuentes@thoughtworks.com", movieList, "+56945621345"));
+                "scespedes@thoughtworks.com", new ArrayList<Item>(), "+56975647764"));
+        userList.add(new User("100-0002", "Andrés Fuentes", "kjah5463",
+                "afuentes@thoughtworks.com", new ArrayList<Item>(), "+56945621345"));
         biblioteca.setUserList(userList);
         return biblioteca;
       }
@@ -52,7 +52,7 @@ public class MyAccountTest
                 "'2. Movies' \n '3. My Account' \n '0. Quit'";
         BibliotecaApp biblioteca = getDummyBiblioteca();
         String sActualOutput = biblioteca.getAnswer("100-0001,123abc");
-        assertEquals(sExpectedOutput,sActualOutput);
+        assertEquals(sExpectedOutput, sActualOutput);
       }
 
     @Test
@@ -62,7 +62,7 @@ public class MyAccountTest
                 "Please enter your user (xxx-xxxx) and password separated by a comma ','";
         BibliotecaApp biblioteca = getDummyBiblioteca();
         String sActualOutput = biblioteca.getAnswer("100-8765,123abc");
-        assertEquals(sExpectedOutput,sActualOutput);
+        assertEquals(sExpectedOutput, sActualOutput);
       }
 
     @Test
@@ -72,7 +72,7 @@ public class MyAccountTest
                 "Please enter your user (xxx-xxxx) and password separated by a comma ','";
         BibliotecaApp biblioteca = getDummyBiblioteca();
         String sActualOutput = biblioteca.getAnswer("100-0001,thOuGhtWorks");
-        assertEquals(sExpectedOutput,sActualOutput);
+        assertEquals(sExpectedOutput, sActualOutput);
       }
 
     @Test
@@ -83,53 +83,67 @@ public class MyAccountTest
         BibliotecaApp biblioteca = getDummyBiblioteca();
         biblioteca.getAnswer("100-0001,123abc");
         String sActualOutput = biblioteca.getAnswer("1");
-        assertEquals(sExpectedOutput,sActualOutput);
+        assertEquals(sExpectedOutput, sActualOutput);
       }
 
     @Test
     public void shouldLoginAndSelectTheMovieMenu()
       {
-        String sExpectedOutput ="This is the menu, you can select: \n '1. List of Movies' \n " +
+        String sExpectedOutput = "This is the menu, you can select: \n '1. List of Movies' \n " +
                 "'2. Check-out a Movie' \n '3. Return a Movie' \n '0. Quit'";
         BibliotecaApp biblioteca = getDummyBiblioteca();
         biblioteca.getAnswer("100-0001,123abc");
         String sActualOutput = biblioteca.getAnswer("2");
-        assertEquals(sExpectedOutput,sActualOutput);
+        assertEquals(sExpectedOutput, sActualOutput);
       }
 
     @Test
     public void shouldLoginAndSelectTheMyAccountMenu()
       {
-        String sExpectedOutput ="This is your menu, you can select: \n '1. My information' \n " +
-        "'2. Books that I've checked-out' \n '0. Quit'";
+        String sExpectedOutput = "This is your menu, you can select: \n '1. My information' \n " +
+                "'2. Elements that I've checked-out' \n '0. Quit'";
         BibliotecaApp biblioteca = getDummyBiblioteca();
         biblioteca.getAnswer("100-0001,123abc");
         String sActualOutput = biblioteca.getAnswer("3");
-        assertEquals(sExpectedOutput,sActualOutput);
+        assertEquals(sExpectedOutput, sActualOutput);
       }
 
     @Test
     public void shouldLoginAndSelectAnInvalidOption()
       {
-        String sExpectedOutput = "Please select a valid option!\n" +"Please select the right option for you\n '1. Books' \n " +
+        String sExpectedOutput = "Please select a valid option!\n" + "Please select the right option for you\n '1. Books' \n " +
                 "'2. Movies' \n '3. My Account' \n '0. Quit'";
         BibliotecaApp biblioteca = getDummyBiblioteca();
         biblioteca.getAnswer("100-0001,123abc");
         String sActualOutput = biblioteca.getAnswer("5");
-        assertEquals(sExpectedOutput,sActualOutput);
+        assertEquals(sExpectedOutput, sActualOutput);
       }
 
     @Test
     public void shouldShowTheUserPersonalInformation()
       {
-        String sExpectedOutput = " Sebastián Céspedes :  "
+        String sExpectedOutput = "Sebastián Céspedes : scespedes@thoughtworks.com : +56975647764";
+        BibliotecaApp biblioteca = getDummyBiblioteca();
+        biblioteca.getAnswer("100-0001,123abc");
+        biblioteca.getAnswer("3");
+        String sActualOutput = biblioteca.getAnswer("1");
+        assertEquals(sExpectedOutput, sActualOutput);
       }
 
+    @Test
+    public void shouldShowTheUserBooksThatIHaveCheckedOut()
+      {
 
-
-
-
-
+        String sExpectedOutput = "Aldous Huxley : A brave new world : 1932 \n";
+        BibliotecaApp biblioteca = getDummyBiblioteca();
+        biblioteca.getAnswer("100-0001,123abc");
+        biblioteca.getAnswer("1");
+        biblioteca.getAnswer("2");
+        biblioteca.getAnswer("A brave new world");
+        biblioteca.getAnswer("3");
+        String sActualOutput = biblioteca.getAnswer("2");
+        assertEquals(sExpectedOutput, sActualOutput);
+      }
 
 
   }

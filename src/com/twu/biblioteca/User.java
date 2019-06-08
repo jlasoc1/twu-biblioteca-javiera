@@ -27,11 +27,6 @@ public class User extends Item
         return userLibraryNumber;
       }
 
-    public String getUserName()
-      {
-        return userName;
-      }
-
     public String getUserPassword()
       {
         return userPassword;
@@ -51,6 +46,7 @@ public class User extends Item
       {
         return userListOfCheckedOutList;
       }
+
 
     public void setUserListOfCheckedOutList(List<Item> userListOfCheckedOutList)
       {
@@ -72,7 +68,7 @@ public class User extends Item
     @Override
     public String getName()
       {
-        return null;
+        return userName;
       }
 
     @Override
@@ -83,4 +79,16 @@ public class User extends Item
       }
 
 
+
+    @Override
+    public String setUserListOfCheckedOutList(User listOfCheckedOut)
+      {
+       return "";
+      }
+
+
+    public void addItem(Item i)
+      {
+        userListOfCheckedOutList.add(i);
+      }
   }

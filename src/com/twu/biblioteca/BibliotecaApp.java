@@ -3,6 +3,7 @@ package com.twu.biblioteca;
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
@@ -28,7 +29,7 @@ public class BibliotecaApp
     public static final String MENU_MOVIE_OPTIONS = "This is the menu, you can select: \n '1. List of Movies' \n " +
             "'2. Check-out a Movie' \n '3. Return a Movie' \n '0. Quit'";
     public static final String MY_ACCOUNT_MENU = "This is your menu, you can select: \n '1. My information' \n " +
-            "'2. Books that I've checked-out' \n '0. Quit'";
+            "'2. Elements that I've checked-out' \n '0. Quit'";
     public static final String MAIN_MENU_OPTIONS = "Please select the right option for you\n '1. Books' \n " +
             "'2. Movies' \n '3. My Account' \n '0. Quit'";
     public static final String INVALID_INPUT_MESSAGE = "Please select a valid option!\n";
@@ -41,6 +42,7 @@ public class BibliotecaApp
     private List<User> userList;
     private InputStream input;
     private PrintStream output;
+    private User currentUser = null;
 
 
     public BibliotecaApp(InputStream in, PrintStream out)
@@ -76,7 +78,6 @@ public class BibliotecaApp
           }
       }
 
-
     public void loadData()
       {
         List bookList = new ArrayList();
@@ -91,9 +92,9 @@ public class BibliotecaApp
 
         List userList = new ArrayList();
         userList.add(new User("100-0001", "Sebastián Céspedes", "123abc",
-                "scespedes@thoughtworks.com", movieList, "+56975647764"));
+                "scespedes@thoughtworks.com", new ArrayList(), "+56975647764"));
         userList.add(new User("100-0002", "Andrés Fuentes", "123abc",
-                "afuentes@thoughtworks.com", movieList, "+56945621345"));
+                "afuentes@thoughtworks.com", new ArrayList(), "+56945621345"));
         this.setUserList(userList);
 
       }
@@ -115,25 +116,22 @@ public class BibliotecaApp
       }
 
 
-
-
     public String getAnswer(String _sUserInput)
       {
         switch (bibliotecaState)
           {
             case LOGIN:
             {
-
-              bibliotecaState = BibliotecaState.GENERAL_MENU;
               String[] parts = _sUserInput.split(",");
               String user = parts[0];
               String pass = parts[1];
-              Boolean login = validateUserLogin(user, pass);
-              if (login)
+              User validatedUser = validateUserLogin(user, pass);
+              if (validatedUser != null)
                 {
+                  currentUser = validatedUser;
+                  bibliotecaState = BibliotecaState.GENERAL_MENU;
                   return getMainMenu();
-                }
-              else
+                } else
                 {
                   return getNotValidOptionMessage() + getUserLoginMessage();
                 }
@@ -255,14 +253,12 @@ public class BibliotecaApp
                 {
                   case 1:
                   {
-
-
+                    return getUserInformation();
                   }
                   case 2:
                   {
-
+                    return getCheckedOutItems();
                   }
-
                   case 0:
                   {
                     return getExitMessage();
@@ -272,17 +268,28 @@ public class BibliotecaApp
                     return getNotValidOptionMessage() + getMyAccountMenu();
                   }
                 }
-
             }
             default:
             {
               throw new RuntimeException("Not a valid state!");
             }
           }
-
-
       }
 
+    private String getCheckedOutItems()
+      {
+        String result = "";
+        for (Item i : currentUser.getUserListOfCheckedOutList())
+          {
+            result = result + i.list();
+          }
+        return result;
+      }
+
+    private String getUserInformation()
+      {
+        return currentUser.getName() + " : " + currentUser.getUserEmail() + " : " + currentUser.getUserPhone();
+      }
 
     private String handleCheckOutMenu(Container _container, String _sUserInput, String _type)
       {
@@ -291,8 +298,8 @@ public class BibliotecaApp
         bibliotecaState = BibliotecaState.GENERAL_MENU;
         if (i != null)
           {
-            return "Enjoy the " + _type + "!";
-
+            currentUser.addItem(i);
+            return "Enjoy the " + _type + "! \n" + getMainMenu();
           }
         return "Sorry that " + _type + " is not available";
       }
@@ -304,27 +311,24 @@ public class BibliotecaApp
         bibliotecaState = BibliotecaState.GENERAL_MENU;
         if (i != null)
           {
-            return "Thank you for returning the " + _type;
+            return "Thank you for returning the " + _type + "! \n" + getMainMenu();
           }
         return "Sorry that " + _type + " does not belong to Biblioteca";
       }
 
-    private Boolean validateUserLogin(String _user, String _password)
+    private User validateUserLogin(String _user, String _password)
       {
         for (User u : userList)
           {
             String user_aux = u.getUserLibraryNumber();
             String pass_aux = u.getUserPassword();
-            if(_user.toLowerCase().equals(user_aux) && _password.toLowerCase().equals(pass_aux))
-            {
-              return true;
-            }
+            if (_user.toLowerCase().equals(user_aux) && _password.toLowerCase().equals(pass_aux))
+              {
+                return u;
+              }
           }
-        return false;
+        return null;
       }
-
-
-
 
     private String getGreeting()
       {
@@ -365,8 +369,6 @@ public class BibliotecaApp
       {
         return USER_LOGIN;
       }
-
-
 
     public void printMessage(String message)
       {

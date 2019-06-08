@@ -113,7 +113,8 @@ public class MoviesTest
         biblioteca.getAnswer("2");
         biblioteca.getAnswer("2");
         String sActualOutput = biblioteca.getAnswer("A Clockwork Orange");
-        String sExpectedOutput = "Enjoy the movie!";
+        String sExpectedOutput = "Enjoy the movie! \n" + "Please select the right option for you\n '1. Books' \n " +
+                "'2. Movies' \n '3. My Account' \n '0. Quit'";
         assertEquals(sExpectedOutput, sActualOutput);
       }
 
@@ -126,7 +127,8 @@ public class MoviesTest
         biblioteca.getAnswer("2");
         biblioteca.getAnswer("2");
         String sActualOutput = biblioteca.getAnswer("A Clockwork Orange");
-        String sExpectedOutput = "Enjoy the movie!";
+        String sExpectedOutput = "Enjoy the movie! \n" + "Please select the right option for you\n '1. Books' \n " +
+                "'2. Movies' \n '3. My Account' \n '0. Quit'";
         assertEquals(sExpectedOutput, sActualOutput);
         //Back to the menu & write the same book name
         biblioteca.getAnswer("2");
@@ -145,7 +147,8 @@ public class MoviesTest
         biblioteca.getAnswer("2");
         biblioteca.getAnswer("2");
         String sActualOutput = biblioteca.getAnswer("A Clockwork Orange");
-        String sExpectedOutput = "Enjoy the movie!";
+        String sExpectedOutput = "Enjoy the movie! \n" + "Please select the right option for you\n '1. Books' \n " +
+                "'2. Movies' \n '3. My Account' \n '0. Quit'";
         assertEquals(sExpectedOutput, sActualOutput);
         //Back to the menu & write the same book name
         biblioteca.getAnswer("2");
@@ -164,7 +167,8 @@ public class MoviesTest
         biblioteca.getAnswer("2");
         biblioteca.getAnswer("2");
         String sActualOutput = biblioteca.getAnswer("A Clockwork Orange");
-        String sExpectedOutput = "Enjoy the movie!";
+        String sExpectedOutput = "Enjoy the movie! \n" + "Please select the right option for you\n '1. Books' \n " +
+                "'2. Movies' \n '3. My Account' \n '0. Quit'";
         assertEquals(sExpectedOutput, sActualOutput);
         //Back to the menu & Show the new list of books
         biblioteca.getAnswer("2");
@@ -194,13 +198,15 @@ public class MoviesTest
         biblioteca.getAnswer("2");
         biblioteca.getAnswer("2");
         String sActualOutput = biblioteca.getAnswer("A Clockwork Orange");
-        String sExpectedOutput = "Enjoy the movie!";
+        String sExpectedOutput = "Enjoy the movie! \n" + "Please select the right option for you\n '1. Books' \n " +
+                "'2. Movies' \n '3. My Account' \n '0. Quit'";
         assertEquals(sExpectedOutput, sActualOutput);
         //Back to the menu & return the book
         biblioteca.getAnswer("2");
         biblioteca.getAnswer("3");
         String sActualOutput2 = biblioteca.getAnswer("A Clockwork Orange");
-        String sExpectedOutput2 = "Thank you for returning the movie";
+        String sExpectedOutput2 = "Thank you for returning the movie! \n" + "Please select the right option for you\n '1. Books' \n " +
+                "'2. Movies' \n '3. My Account' \n '0. Quit'";
         assertEquals(sExpectedOutput2, sActualOutput2);
       }
 
@@ -213,7 +219,8 @@ public class MoviesTest
         biblioteca.getAnswer("2");
         biblioteca.getAnswer("2");
         String sActualOutput = biblioteca.getAnswer("A Clockwork Orange");
-        String sExpectedOutput = "Enjoy the movie!";
+        String sExpectedOutput = "Enjoy the movie! \n" + "Please select the right option for you\n '1. Books' \n " +
+                "'2. Movies' \n '3. My Account' \n '0. Quit'";
         assertEquals(sExpectedOutput, sActualOutput);
         //Back to the menu & return the book
         biblioteca.getAnswer("2");

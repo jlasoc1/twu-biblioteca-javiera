@@ -28,6 +28,7 @@ public class Container
 
     public Item checkout(String name)
       {
+
         for (Item b : itemList)
           {
             if (b.getName().toLowerCase().equals(name))
@@ -37,7 +38,6 @@ public class Container
                     b.setAvailability(false);
                     return b;
                   }
-
               }
           }
         return null;
@@ -58,6 +58,10 @@ public class Container
           }
         return null;
       }
+
+
+
+
 
   }
 
