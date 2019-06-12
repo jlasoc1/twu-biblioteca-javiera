@@ -3,7 +3,6 @@ package com.twu.biblioteca;
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
@@ -104,7 +103,6 @@ public class BibliotecaApp
         this.userList = userList;
       }
 
-
     public void setBooksContainer(Container container)
       {
         bookContainer = container;
@@ -114,7 +112,6 @@ public class BibliotecaApp
       {
         movieContainer = container;
       }
-
 
     public String getAnswer(String _sUserInput)
       {
