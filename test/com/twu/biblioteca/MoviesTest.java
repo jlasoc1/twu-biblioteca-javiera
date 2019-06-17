@@ -1,6 +1,7 @@
 package com.twu.biblioteca;
 
 import org.junit.Test;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,7 +60,7 @@ public class MoviesTest
     public void testViewAListOfBooksWhenSelectOne()
       {
         String sExpectedOutput = "A Clockwork Orange : 1971 : Stanley Kubrick : 8\n" +
-        "Big Fish : 2003 : Tim Burton : 8\n";
+                "Big Fish : 2003 : Tim Burton : 8\n";
         BibliotecaApp biblioteca = getDummyBiblioteca();
         biblioteca.getAnswer("100-0001,123abc");
         biblioteca.getAnswer("2");

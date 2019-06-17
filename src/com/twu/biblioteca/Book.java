@@ -17,9 +17,6 @@ public class Book extends Item
         this.availabilityOfTheBook = availabilityOfTheBook;
       }
 
-
-
-
     public String getAuthorOfTheBook()
       {
         return authorOfTheBook;
@@ -42,8 +39,6 @@ public class Book extends Item
         return availabilityOfTheBook;
       }
 
-
-    //setter
     @Override
     public void setAvailability(boolean availabilityOfTheBook)
       {
@@ -64,7 +59,6 @@ public class Book extends Item
         return "";
 
       }
-
   }
 
 

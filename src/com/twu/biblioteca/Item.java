@@ -12,5 +12,4 @@ public abstract class Item
 
     public abstract String list();
 
-    public abstract String setUserListOfCheckedOutList(User listOfCheckedOut);
   }

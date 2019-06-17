@@ -12,7 +12,7 @@ public class User extends Item
     private String userEmail;
     private List<Item> userListOfCheckedOutList;
 
-    public User(String userLibraryNumber,String userName, String userPassword, String userEmail, List<Item> userListOfCheckedOutList, String userPhone)
+    public User(String userLibraryNumber, String userName, String userPassword, String userEmail, List<Item> userListOfCheckedOutList, String userPhone)
       {
         this.userLibraryNumber = userLibraryNumber;
         this.userName = userName;
@@ -47,12 +47,6 @@ public class User extends Item
         return userListOfCheckedOutList;
       }
 
-
-    public void setUserListOfCheckedOutList(List<Item> userListOfCheckedOutList)
-      {
-        this.userListOfCheckedOutList = userListOfCheckedOutList;
-      }
-
     @Override
     public boolean isAvailable()
       {
@@ -78,14 +72,11 @@ public class User extends Item
                 + this.getUserPhone() + " " + "\n";
       }
 
-
-
     @Override
     public String setUserListOfCheckedOutList(User listOfCheckedOut)
       {
-       return "";
+        return "";
       }
-
 
     public void addItem(Item i)
       {

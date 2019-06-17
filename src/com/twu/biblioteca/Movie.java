@@ -31,19 +31,9 @@ public class Movie extends Item
         return nameOfTheMovie;
       }
 
-    public boolean getIsRatedTheMovie()
-      {
-        return isRatedTheMovie;
-      }
-
     public String getDirectorOfTheMovie()
       {
         return directorOfTheMovie;
-      }
-
-    public int getRatingOfTheMovie()
-      {
-        return ratingOfTheMovie;
       }
 
     @Override
@@ -52,8 +42,6 @@ public class Movie extends Item
         return availabilityOfTheMovie;
       }
 
-
-    //setter
     @Override
     public void setAvailability(boolean availability)
       {
@@ -75,5 +63,4 @@ public class Movie extends Item
         return "";
 
       }
-
   }
